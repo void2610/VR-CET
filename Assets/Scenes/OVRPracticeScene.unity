@@ -1187,7 +1187,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
@@ -1869,7 +1869,7 @@ BoxCollider:
   m_GameObject: {fileID: 3978212154083734510}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.020333707, y: 0.0058574677, z: 0.027191073}
   m_Center: {x: -0.012063742, y: 0.0010159016, z: 0.04444538}
@@ -2528,7 +2528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &8787691546304494810
 GameObject:
   m_ObjectHideFlags: 0
