@@ -5,21 +5,40 @@ using UnityEngine;
 public class Cigaret : MonoBehaviour
 {
     [SerializeField]
+    private GameObject cigaretFire;
+    [SerializeField]
     private ParticleSystem ps;
+    [SerializeField]
+    private Material fireMaterial;
+    [SerializeField]
+    private Material unfireMaterial;
+
 
     public bool isSmoking{private set; get; } = false;
+    public float time{private set; get; } = 0.0f;
+    public const float BURNINGTIME = 10.0f;
 
     public void StartSmoking(){
-        isSmoking = true;
+        if(!isSmoking){
+            isSmoking = true;
+            cigaretFire.GetComponent<Renderer>().material = fireMaterial;
+            ps.Play();
+
+            
+        }
     }
 
     public void StopSmoking(){
-        isSmoking = false;
+        if(isSmoking){
+            isSmoking = false;
+            cigaretFire.GetComponent<Renderer>().material = unfireMaterial;
+            ps.Stop();
+        }
     }
 
     void Start()
     {
-        ps.Stop();
+        StopSmoking();
     }
 
     // Update is called once per frame
@@ -27,9 +46,15 @@ public class Cigaret : MonoBehaviour
     {
         if(isSmoking){
             ps.Play();
+            time += Time.deltaTime;
         }
         else{
             ps.Stop();
+        }
+
+
+        if(time >= BURNINGTIME){
+            StopSmoking();
         }
     }
 }

@@ -1342,6 +1342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1268284687}
   - component: {fileID: 1268284686}
+  - component: {fileID: 1268284688}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -1369,14 +1370,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268284685}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.15087159, y: 0.95154476, z: 0.19618036}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9999999, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1268284688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268284685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5864679f08358bc409d0881c4cee3076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cigaret: {fileID: 117874503}
 --- !u!1 &1346189786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,7 +1459,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: daf23ffed5cc78f4fb0ac0bbf4b99cb0, type: 2}
+  - {fileID: 2100000, guid: 3d53df2c576f2f84ab36419cef766cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11681,4 +11695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cba43c4506c1b64daa1407ae34d4b88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cigaretFire: {fileID: 1346189786}
   ps: {fileID: 1807930040}
+  fireMaterial: {fileID: 2100000, guid: daf23ffed5cc78f4fb0ac0bbf4b99cb0, type: 2}
+  unfireMaterial: {fileID: 2100000, guid: 3d53df2c576f2f84ab36419cef766cb1, type: 2}
