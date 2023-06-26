@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class ShowSmokeScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private ParticleSystem ps;
     void Start()
     {
-        
+        ps.Stop();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space)){
-            Debug.Log("Press");
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ps.Play();
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            ps.Stop();
         }
     }
 }
