@@ -16,6 +16,8 @@ public class Cigaret : MonoBehaviour
 
     public bool isSmoking{private set; get; } = false;
     public float time{private set; get; } = 0.0f;
+    [SerializeField]
+    public float exhaustRate{private set; get; } = 1.0f;
     public const float BURNINGTIME = 10.0f;
 
     public void StartSmoking(){
@@ -46,7 +48,8 @@ public class Cigaret : MonoBehaviour
     {
         if(isSmoking){
             ps.Play();
-            time += Time.deltaTime;
+            time += Time.deltaTime; 
+            Debug.Log(ps.emissionRate);
         }
         else{
             ps.Stop();
