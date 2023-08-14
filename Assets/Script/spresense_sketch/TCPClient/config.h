@@ -23,7 +23,7 @@
 #define  AP_SSID        "TP-Link_9C70"
 #define  PASSPHRASE     "daze2018"
 
-#define  HTTP_SRVR_IP  "192.168.0.145"
+#define  TCPSRVR_IP  "192.168.0.118"
 #define  TCPSRVR_PORT   "10001"
 
 
