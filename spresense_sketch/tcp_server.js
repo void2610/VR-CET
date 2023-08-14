@@ -15,16 +15,6 @@ var fname = "TCP_TEST"
 var wdata;
 
 
-// File Write Function
-function writeFile(path, data) {
-	fs.appendFile(path, data, function (err) {
-		if (err) {
-			throw err;
-		}
-	});
-}
-
-
 server = net.createServer(function (conn) {
 	console.log('server-> tcp server created');
 
@@ -37,7 +27,7 @@ server = net.createServer(function (conn) {
 			formatted = dt.toFormat("HH24:MI:SS");
 			console.log(formatted, Math.floor(len * 8 / (endTime - startTime)), "Kbps");
 			wdata = formatted + "," + Math.floor(len * 8 / (endTime - startTime)) + "Kbps\r\n";
-			writeFile(fname, wdata);
+			//writeFile(fname, wdata);
 			len = 0;
 			startTime = endTime;
 		}
@@ -50,15 +40,14 @@ server = net.createServer(function (conn) {
 
 }).listen(port);
 
-//ログ無効化
-// if( process.argv.length > 2 ){
-//     fname = fname + "_" + process.argv[2] + ".log";
-// }
-// else{
-//     console.log('usage: node tcp_server.js <log file name>');
-//     testtime = new Date();
-//     formatted = testtime.toFormat("HH24MISS");
-//     fname = fname + "_" + formatted + ".log";
-// }
+if (process.argv.length > 2) {
+	fname = fname + "_" + process.argv[2] + ".log";
+}
+else {
+	console.log('usage: node tcp_server.js <log file name>');
+	testtime = new Date();
+	formatted = testtime.toFormat("HH24MISS");
+	fname = fname + "_" + formatted + ".log";
+}
 
 console.log('listening on port %d', port);
