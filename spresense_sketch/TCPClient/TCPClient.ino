@@ -19,23 +19,14 @@
 #include "config.h"
 
 #define  CONSOLE_BAUDRATE  115200
-/*-------------------------------------------------------------------------*
- * Globals:
- *-------------------------------------------------------------------------*/
+
 const uint8_t TCP_Data[] = "GS2200 TCP Client Data Transfer Test.";
 const uint16_t TCP_RECEIVE_PACKET_SIZE = 1500;
 uint8_t TCP_Receive_Data[TCP_RECEIVE_PACKET_SIZE] = {0};
 
 TelitWiFi gs2200;
 TWIFI_Params gsparams;
-/*-------------------------------------------------------------------------*
- * Function ProtoTypes:
- *-------------------------------------------------------------------------*/
 
-
-/*---------------------------------------------------------------------------*
- * led_onoff
- *---------------------------------------------------------------------------*/
 static void led_onoff(int num, bool stat)
 {
 	switch (num) {
@@ -58,11 +49,6 @@ static void led_onoff(int num, bool stat)
 
 }
 
-/*---------------------------------------------------------------------------*
- * led_effect
- *---------------------------------------------------------------------------*
- * Description: See this effect....
- *---------------------------------------------------------------------------*/
 static void led_effect(void)
 {
 	static int cur=0;
@@ -91,7 +77,6 @@ static void led_effect(void)
 		
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	/* initialize digital pin of LEDs as an output. */
 	pinMode(LED0, OUTPUT);
@@ -123,6 +108,7 @@ void setup() {
 }
 
 // the loop function runs over and over again forever
+int count = 0;
 void loop() {
 	char server_cid = 0;
 	bool served = false;
@@ -146,6 +132,7 @@ void loop() {
 
 			// Start the infinite loop to send the data
 			while (1) {
+        TCP_Data = String(count++);
 				if (false == gs2200.write(server_cid, TCP_Data, strlen((const char*)TCP_Data))) {
 					// Data is not sent, we need to re-send the data
 					delay(10);
