@@ -56,7 +56,7 @@ public class TCPServerScript : MonoBehaviour
             }
             else
             {
-                // クライアントから文字列を受信した場合はログに出力します
+                // ログに出力
                 var message = Encoding.UTF8.GetString(buffer, 0, count);
                 Debug.LogFormat("受信成功：{0}", message);
                 // データ送信（応答）
