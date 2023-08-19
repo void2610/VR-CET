@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
 public class TCPServerScript : MonoBehaviour
 {
@@ -43,24 +44,33 @@ public class TCPServerScript : MonoBehaviour
 
         while (true)
         {
-            var buffer = new byte[256];
-            var count = m_networkStream.Read(buffer, 0, buffer.Length);
+            try
+            {
+                var buffer = new byte[256];
+                var count = m_networkStream.Read(buffer, 0, buffer.Length);
 
-            if (count == 0)
-            {
-                Debug.Log("切断");
-                // 通信に使用したインスタンスを破棄
-                OnDestroy();
-                Task.Run(() => OnProcess());
-                break;
+                if (count == 0)
+                {
+                    Debug.Log("切断");
+                    // 通信に使用したインスタンスを破棄
+                    OnDestroy();
+                    Task.Run(() => OnProcess());
+                    break;
+                }
+                else
+                {
+                    // ログに出力
+                    var message = Encoding.UTF8.GetString(buffer, 0, count);
+                    Debug.LogFormat("受信成功：{0}", message);
+                    // データ送信（応答）
+                    m_networkStream.Write(TCP_Data, 0, TCP_Data.Length);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // ログに出力
-                var message = Encoding.UTF8.GetString(buffer, 0, count);
-                Debug.LogFormat("受信成功：{0}", message);
-                // データ送信（応答）
-                m_networkStream.Write(TCP_Data, 0, TCP_Data.Length);
+                Debug.LogError("エラー: " + ex.Message);
+                Debug.LogError("スタックトレース: " + ex.StackTrace);
+                // エラーが発生しても処理を継続する場合は、ここに適切なコードを追加
             }
         }
     }
