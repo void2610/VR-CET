@@ -173,7 +173,6 @@ void loop() {
             delay(10);
           }
         }
-        //600超えると0000000になる
 
 				while (gs2200.available()) {
 					receive_size = gs2200.read(server_cid, TCP_Receive_Data, TCP_RECEIVE_PACKET_SIZE);
