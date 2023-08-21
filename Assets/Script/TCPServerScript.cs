@@ -47,7 +47,7 @@ public class TCPServerScript : MonoBehaviour
             try
             {
                 var buffer = new byte[256];
-                var count = m_networkStream.Read(buffer, 0, buffer.Length);
+                var count = m_networkStream.Read(buffer, 0, buffer.Length)
 
                 if (count == 0)
                 {
