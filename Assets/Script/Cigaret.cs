@@ -13,25 +13,30 @@ public class Cigaret : MonoBehaviour
     [SerializeField]
     private Material unfireMaterial;
 
-
-    public bool isSmoking{private set; get; } = false;
-    public float time{private set; get; } = 0.0f;
+    public bool isSmoking { private set; get; } = false;
+    public float time { private set; get; } = 0.0f;
     [SerializeField]
-    public float exhaustRate{private set; get; } = 1.0f;
+    public float exhaustRate { private set; get; } = 1.0f;
     public const float BURNINGTIME = 10.0f;
 
-    public void StartSmoking(){
-        if(!isSmoking){
+    private TCPServer server;
+
+    public void StartSmoking()
+    {
+        if (!isSmoking)
+        {
             isSmoking = true;
             cigaretFire.GetComponent<Renderer>().material = fireMaterial;
             ps.Play();
 
-            
+
         }
     }
 
-    public void StopSmoking(){
-        if(isSmoking){
+    public void StopSmoking()
+    {
+        if (isSmoking)
+        {
             isSmoking = false;
             cigaretFire.GetComponent<Renderer>().material = unfireMaterial;
             ps.Stop();
@@ -41,22 +46,36 @@ public class Cigaret : MonoBehaviour
     void Start()
     {
         StopSmoking();
+        server = TCPServer.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isSmoking){
+        if (server.IsConnected())
+        {
+            float normalizedCo2 = Mathf.Clamp01((float)(server.GetCo2() - 400) / (3500 - 400));
+            exhaustRate = normalizedCo2;
+        }
+        else
+        {
+            exhaustRate = 0.0f;
+        }
+
+        if (isSmoking)
+        {
             ps.Play();
-            time += Time.deltaTime; 
+            time += Time.deltaTime;
             Debug.Log(ps.emissionRate);
         }
-        else{
+        else
+        {
             ps.Stop();
         }
 
 
-        if(time >= BURNINGTIME){
+        if (time >= BURNINGTIME)
+        {
             StopSmoking();
         }
     }

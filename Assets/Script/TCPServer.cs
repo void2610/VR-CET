@@ -26,9 +26,14 @@ public class TCPServer : MonoBehaviour
     }
 
     private int co2 = -1;
-    private TcpListener tcpListener;
-    private TcpClient tcpClient;
-    private NetworkStream networkStream;
+    private TcpListener tcpListener = null;
+    private TcpClient tcpClient = null;
+    private NetworkStream networkStream = null;
+
+    public bool IsConnected()
+    {
+        return co2 != -1;
+    }
 
     public int GetCo2()
     {
