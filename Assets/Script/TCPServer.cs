@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 
-public class TCPServerScript : MonoBehaviour
+public class TCPServer : MonoBehaviour
 {
     public string m_ipAddress = "192.168.0.118";
     public int m_port = 10001;
@@ -46,8 +46,8 @@ public class TCPServerScript : MonoBehaviour
         {
             try
             {
-                var buffer = new byte[256];
-                var count = m_networkStream.Read(buffer, 0, buffer.Length)
+                var buffer = new byte[512];
+                var count = m_networkStream.Read(buffer, 0, buffer.Length);
 
                 if (count == 0)
                 {
@@ -59,18 +59,19 @@ public class TCPServerScript : MonoBehaviour
                 }
                 else
                 {
-                    // ログに出力
                     var message = Encoding.UTF8.GetString(buffer, 0, count);
                     Debug.LogFormat("受信成功：{0}", message);
-                    // データ送信（応答）
-                    m_networkStream.Write(TCP_Data, 0, TCP_Data.Length);
+                    // m_networkStream.Write(TCP_Data, 0, TCP_Data.Length);
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogError("エラー: " + ex.Message);
-                Debug.LogError("スタックトレース: " + ex.StackTrace);
-                // エラーが発生しても処理を継続する場合は、ここに適切なコードを追加
+                if (ex is System.IO.IOException)
+                {
+                    Debug.Log("切断");
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
