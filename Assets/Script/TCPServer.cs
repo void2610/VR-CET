@@ -9,59 +9,74 @@ using System;
 
 public class TCPServer : MonoBehaviour
 {
-    public string m_ipAddress = "192.168.0.118";
-    public int m_port = 10001;
-
-    private TcpListener m_tcpListener;
-    private TcpClient m_tcpClient;
-    private NetworkStream m_networkStream;
-
-    private string m_message = string.Empty; // クライアントから受信した文字列
+    //シングルトン実装
+    public static TCPServer instance;
 
     private void Awake()
     {
-        //非同期
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private int co2 = -1;
+    private TcpListener tcpListener;
+    private TcpClient tcpClient;
+    private NetworkStream networkStream;
+
+    public int GetCo2()
+    {
+        return co2;
+    }
+
+    private void Start()
+    {
         Task.Run(() => OnProcess());
     }
 
     private void OnProcess()
     {
-        byte[] TCP_Data = System.Text.Encoding.ASCII.GetBytes("Unity to SPRESENSE");
+        var ipAddress = IPAddress.Parse("192.168.0.118");
+        tcpListener = new TcpListener(ipAddress, 10001);
 
-        var ipAddress = IPAddress.Parse(m_ipAddress);
-        m_tcpListener = new TcpListener(ipAddress, m_port);
-        m_tcpListener.Start();
-
-        Debug.Log("待機中");
-
-        // クライアントからの接続を待機
-        m_tcpClient = m_tcpListener.AcceptTcpClient();
-
+        tcpListener.Start();
+        Debug.Log("接続待機中");
+        tcpClient = tcpListener.AcceptTcpClient();
         Debug.Log("接続完了");
-
-        // クライアントから文字列が送信されるのを待機
-        m_networkStream = m_tcpClient.GetStream();
+        networkStream = tcpClient.GetStream();
 
         while (true)
         {
             try
             {
                 var buffer = new byte[512];
-                var count = m_networkStream.Read(buffer, 0, buffer.Length);
+                var count = networkStream.Read(buffer, 0, buffer.Length);
 
                 if (count == 0)
                 {
-                    Debug.Log("切断");
-                    // 通信に使用したインスタンスを破棄
-                    OnDestroy();
+                    Debug.Log("切断 再試行");
                     Task.Run(() => OnProcess());
                     break;
                 }
                 else
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, count);
-                    Debug.LogFormat("受信成功：{0}", message);
-                    // m_networkStream.Write(TCP_Data, 0, TCP_Data.Length);
+                    if (int.TryParse(message, out int result))
+                    {
+                        co2 = result;
+                    }
+                    else
+                    {
+                        co2 = -1;
+                    }
+                    //Debug.Log(co2);
+                    // networkStream.Write(data, 0, data.Length);
                 }
             }
             catch (Exception ex)
@@ -78,8 +93,8 @@ public class TCPServer : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_networkStream?.Dispose();
-        m_tcpClient?.Dispose();
-        m_tcpListener?.Stop();
+        networkStream?.Dispose();
+        tcpClient?.Dispose();
+        tcpListener?.Stop();
     }
 }
