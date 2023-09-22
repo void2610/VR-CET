@@ -47,7 +47,7 @@ public class TCPServer : MonoBehaviour
 
     private void OnProcess()
     {
-        var ipAddress = IPAddress.Parse("192.168.0.118");
+        var ipAddress = IPAddress.Parse("192.168.10.11");
         tcpListener = new TcpListener(ipAddress, 10001);
 
         tcpListener.Start();
@@ -80,7 +80,7 @@ public class TCPServer : MonoBehaviour
                     {
                         co2 = -1;
                     }
-                    //Debug.Log(co2);
+                    Debug.Log(co2);
                     // networkStream.Write(data, 0, data.Length);
                 }
             }
