@@ -80,7 +80,6 @@ public class TCPServer : MonoBehaviour
                     {
                         co2 = -1;
                     }
-                    Debug.Log(co2);
                     // networkStream.Write(data, 0, data.Length);
                 }
             }

@@ -28,7 +28,7 @@ public class Cigaret : MonoBehaviour
             isSmoking = true;
             cigaretFire.GetComponent<Renderer>().material = fireMaterial;
             ps.Play();
-
+            time = 0;
 
         }
     }
@@ -49,13 +49,14 @@ public class Cigaret : MonoBehaviour
         server = TCPServer.instance;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (server.IsConnected())
         {
             float normalizedCo2 = Mathf.Clamp01((float)(server.GetCo2() - 400) / (3500 - 400));
             exhaustRate = normalizedCo2;
+            var em = ps.emission;
+            em.rateOverTime = exhaustRate;
         }
         else
         {
@@ -66,7 +67,7 @@ public class Cigaret : MonoBehaviour
         {
             ps.Play();
             time += Time.deltaTime;
-            Debug.Log(ps.emissionRate);
+            Debug.Log(exhaustRate);
         }
         else
         {
