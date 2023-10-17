@@ -47,7 +47,7 @@ public class TCPServer : MonoBehaviour
 
     private void OnProcess()
     {
-        var ipAddress = IPAddress.Parse("192.168.10.11");
+        var ipAddress = IPAddress.Parse("192.168.10.50");
         tcpListener = new TcpListener(ipAddress, 10001);
 
         tcpListener.Start();
