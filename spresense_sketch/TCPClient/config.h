@@ -20,10 +20,10 @@
 /*-------------------------------------------------------------------------*
  * Configration
  *-------------------------------------------------------------------------*/
-#define  AP_SSID        "TP-Link_9C70"
-#define  PASSPHRASE     "daze2018"
+#define  AP_SSID        "KomatsuLab-G"
+#define  PASSPHRASE     "takahirokomatsu"
 
-#define  TCPSRVR_IP  "192.168.0.118"
+#define  TCPSRVR_IP  "192.168.10.50"
 #define  TCPSRVR_PORT   "10001"
 
 
