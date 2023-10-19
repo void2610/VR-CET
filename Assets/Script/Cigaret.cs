@@ -67,7 +67,7 @@ public class Cigaret : MonoBehaviour
         {
             ps.Play();
             time += Time.deltaTime;
-            Debug.Log(exhaustRate);
+            //Debug.Log(exhaustRate);
         }
         else
         {
