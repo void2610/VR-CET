@@ -7,33 +7,18 @@ public class Lighter : MonoBehaviour
     [SerializeField]
     private ParticleSystem ps;
 
-    private bool isEnabled = false;
-    
-
-    public void ChangeEnabled(){
-        isEnabled = !isEnabled;
-        ChangeParticleSystemPlaying();
-    }
-
-    private void ChangeParticleSystemPlaying(){
-        if(ps.isPlaying){
-            ps.Stop();
-        }
-        else{
-            ps.Play();
-        }
-    }
-
-    void Start()
-    {
-        isEnabled = false;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)){
-            ChangeEnabled();
+        if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.LTouch) || OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.RTouch))
+        {
+            if(!ps.isPlaying){
+                ps.Play();
+            }
+        }
+        else{
+            if(ps.isPlaying){
+                ps.Stop();
+            }
         }
     }
 }
