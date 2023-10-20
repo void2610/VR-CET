@@ -24,8 +24,6 @@ public class Lighter : MonoBehaviour
         }
     }
 
-
-
     void Start()
     {
         isEnabled = false;
@@ -34,7 +32,7 @@ public class Lighter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space)){
+        if(Input.GetKeyDown(KeyCode.Space)){
             ChangeEnabled();
         }
     }
