@@ -2,58 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lighter : MonoBehaviour
+public class Lighter : InteractiveObjectBase
 {
     [SerializeField]
     private ParticleSystem ps;
     [SerializeField]
     GameObject rightHand;
     [SerializeField]
-    GameObject leftHand;    
+    GameObject leftHand;
 
-    private float distanceToRightHand = 999;
-    private float distanceToLeftHand = 999;
+    public override void OnInteractionStart(){
+        ps.Play();
+        Debug.Log("play");
+    }
 
-    void Start(){
+    public override void OnInteractionEnd(){
         ps.Stop();
     }
 
-    void Update()
-    {
-        
-            if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.LTouch))
-            {
-                if(distanceToLeftHand < 0.08f){
-                    if(!ps.isPlaying){
-                        ps.Play();
-                    }
-                }
-            }
-            else{
-                if(ps.isPlaying){
-                    ps.Stop();
-                }
-            }
-        
-            if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.RTouch))
-            {
-                if(distanceToRightHand < 1.1f){
-                    if(!ps.isPlaying){
-                        ps.Play();
-                    }
-                }
-            }
-            else{
-                if(ps.isPlaying){
-                    ps.Stop();
-                }
-            }
-
+    protected override void Start(){
+        base.Start();
+        ps.Stop();
     }
 
-    void FixedUpdate() {
-        distanceToLeftHand = Vector3.Distance(this.transform.position, leftHand.transform.position);
-        distanceToRightHand = Vector3.Distance(this.transform.position, rightHand.transform.position);
-        Debug.Log(distanceToRightHand);
+    protected override void Update()
+    {
+        base.Update();
     }
 }
