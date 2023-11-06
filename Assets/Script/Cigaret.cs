@@ -26,6 +26,7 @@ public class Cigaret : MonoBehaviour
         if (!isSmoking)
         {
             isSmoking = true;
+            SmokeManager.instance.isSmoking = true;
             cigaretFire.GetComponent<Renderer>().material = fireMaterial;
             ps.Play();
             time = 0;
@@ -38,6 +39,7 @@ public class Cigaret : MonoBehaviour
         if (isSmoking)
         {
             isSmoking = false;
+            SmokeManager.instance.isSmoking = false;
             cigaretFire.GetComponent<Renderer>().material = unfireMaterial;
             ps.Stop();
         }
