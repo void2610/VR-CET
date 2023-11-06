@@ -15,11 +15,7 @@ public class Cigaret : MonoBehaviour
 
     public bool isSmoking { private set; get; } = false;
     public float time { private set; get; } = 0.0f;
-    [SerializeField]
-    public float exhaustRate { private set; get; } = 1.0f;
     public const float BURNINGTIME = 10.0f;
-
-    private TCPServer server;
 
     public void StartSmoking()
     {
@@ -46,23 +42,10 @@ public class Cigaret : MonoBehaviour
     void Start()
     {
         StopSmoking();
-        server = TCPServer.instance;
     }
 
     void Update()
     {
-        if (server.IsConnected())
-        {
-            float normalizedCo2 = Mathf.Clamp01((float)(server.GetCo2() - 400) / (3500 - 400));
-            exhaustRate = normalizedCo2;
-            var em = ps.emission;
-            em.rateOverTime = exhaustRate;
-        }
-        else
-        {
-            exhaustRate = 0.0f;
-        }
-
         if (isSmoking)
         {
             ps.Play();
