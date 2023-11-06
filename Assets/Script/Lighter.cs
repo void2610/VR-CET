@@ -12,12 +12,11 @@ public class Lighter : InteractiveObjectBase
     GameObject leftHand;
 
     public override void OnInteractionStart(){
-        ps.Play();
-        Debug.Log("play");
+        if(!ps.isPlaying) ps.Play();
     }
 
     public override void OnInteractionEnd(){
-        ps.Stop();
+        if(ps.isPlaying) ps.Stop();
     }
 
     protected override void Start(){

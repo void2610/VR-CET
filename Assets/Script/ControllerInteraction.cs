@@ -26,10 +26,10 @@ public class ControllerInteraction : MonoBehaviour
         if(!isRightHand && nearestObjects[1] == null) return; 
 
         if(isRightHand){
-            nearestObjects[0].GetComponent<InteractiveObjectBase>().OnInteractionEnd();
+            nearestObjects[0]?.GetComponent<InteractiveObjectBase>().OnInteractionEnd();
         }
         else{
-            nearestObjects[1].GetComponent<InteractiveObjectBase>().OnInteractionEnd();
+            nearestObjects[1]?.GetComponent<InteractiveObjectBase>().OnInteractionEnd();
         }
     }
 
@@ -45,11 +45,17 @@ public class ControllerInteraction : MonoBehaviour
             {
                 StartInteraction();
             }
+            else{
+                EndInteraction();
+            }
         }
         else{
             if (OVRInput.Get(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.LTouch))
             {
                 StartInteraction();
+            }
+            else{
+                EndInteraction();
             }
         }
     }
