@@ -21,7 +21,6 @@ public class CigaretHead : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "LighterTrigger")
         {
             cigaret.StartSmoking();

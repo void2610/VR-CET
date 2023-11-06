@@ -26,7 +26,6 @@ public class Cigaret : MonoBehaviour
         if (!isSmoking)
         {
             isSmoking = true;
-            SmokeManager.instance.isSmoking = true;
             cigaretFire.GetComponent<Renderer>().material = fireMaterial;
             ps.Play();
             time = 0;
@@ -39,7 +38,6 @@ public class Cigaret : MonoBehaviour
         if (isSmoking)
         {
             isSmoking = false;
-            SmokeManager.instance.isSmoking = false;
             cigaretFire.GetComponent<Renderer>().material = unfireMaterial;
             ps.Stop();
         }
@@ -80,6 +78,30 @@ public class Cigaret : MonoBehaviour
         if (time >= BURNINGTIME)
         {
             StopSmoking();
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "SmokeManager" && isSmoking)
+        {
+            other.gameObject.GetComponent<SmokeManager>().isSmoking = true;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "SmokeManager" && isSmoking)
+        {
+            other.gameObject.GetComponent<SmokeManager>()?.BreatheSmoke();
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "SmokeManager")
+        {
+            other.gameObject.GetComponent<SmokeManager>().isSmoking = false;
         }
     }
 }

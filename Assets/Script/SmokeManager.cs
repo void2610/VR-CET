@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SmokeManager : MonoBehaviour
 {
-    //シングルトン実装
     public static SmokeManager instance;
 
     private void Awake()
@@ -25,7 +24,12 @@ public class SmokeManager : MonoBehaviour
 
     private TCPServer server;
 
+    private int smokeAmount = 0;
     public bool isSmoking = false;
+
+    public void BreatheSmoke(){
+        smokeAmount += 3;
+    }
 
     void Start()
     {
@@ -34,8 +38,13 @@ public class SmokeManager : MonoBehaviour
 
     void Update()
     {
-        if(isSmoking){
+        if(smokeAmount >= 0 && !isSmoking){
             ps.Play();
+            smokeAmount -= 3;
         }
+        else{
+            ps.Stop();
+        }
+        Debug.Log(smokeAmount);
     }
 }
