@@ -26,12 +26,12 @@ public class SmokeManager : MonoBehaviour
 
     private float smokeAmount = 0;
 
-    private float exhaustRate = 1.0f;
+    private float exhaustRate = 0;
 
     public bool isSmoking = false;
 
     public void BreatheSmoke(){
-        smokeAmount += 800;
+        smokeAmount += 150;
     }
 
     void Start()
@@ -46,19 +46,24 @@ public class SmokeManager : MonoBehaviour
 
     void Update()
     {
+        var em = ps.emission;
         if (server.IsConnected())
         {
             float normalizedCo2 = Map((float)(server.GetCo2()), 400, 5000, 0, 400);
+            Debug.Log(normalizedCo2);
 
-            exhaustRate = normalizedCo2;  
-            var em = ps.emission; 
-            em.rateOverTime = exhaustRate;
+            if(normalizedCo2 < 30){
+                em.rateOverTime = 100;
+                exhaustRate = 100;
+            }
+            else{
+                em.rateOverTime = 0;
+                exhaustRate = 0;
+            }
         }
         else
         {
-            exhaustRate = 500;
-            var em = ps.emission;
-            em.rateOverTime = exhaustRate;
+            em.rateOverTime = 0;
         }
 
 
