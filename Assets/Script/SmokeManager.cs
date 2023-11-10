@@ -31,7 +31,7 @@ public class SmokeManager : MonoBehaviour
     public bool isSmoking = false;
 
     public void BreatheSmoke(){
-        smokeAmount += 100;
+        smokeAmount += 800;
     }
 
     void Start()
@@ -56,7 +56,7 @@ public class SmokeManager : MonoBehaviour
         }
         else
         {
-            exhaustRate = 0.0f;
+            exhaustRate = 500;
             var em = ps.emission;
             em.rateOverTime = exhaustRate;
         }

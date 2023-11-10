@@ -15,7 +15,7 @@ public class Cigaret : MonoBehaviour
 
     public bool isSmoking { private set; get; } = false;
     public float time { private set; get; } = 0.0f;
-    public const float BURNINGTIME = 10.0f;
+    public const float BURNINGTIME = 100.0f;
 
     public void StartSmoking()
     {
@@ -50,7 +50,6 @@ public class Cigaret : MonoBehaviour
         {
             ps.Play();
             time += Time.deltaTime;
-            //Debug.Log(exhaustRate);
         }
         else
         {
