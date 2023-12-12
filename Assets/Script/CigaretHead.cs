@@ -10,12 +10,10 @@ public class CigaretHead : MonoBehaviour
         cigaret = GetComponentInParent<Cigaret>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)){
             cigaret.StartSmoking();
-            Debug.Log("aa");
         }
     }
 
