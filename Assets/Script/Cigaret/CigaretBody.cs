@@ -18,8 +18,8 @@ public class CigaretBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_cigaret.time < _cigaret.BURNINGTIME){
-            float ratio = _cigaret.time / _cigaret.BURNINGTIME;
+        if(_cigaret.time < _cigaret.BURNINGTIME){     
+            float ratio = 1 - (_cigaret.time / _cigaret.BURNINGTIME);
             float newLength = startLength * ratio;
             if(newLength > endLength){
                 this.transform.localScale = new Vector3(this.transform.localScale.x, newLength, this.transform.localScale.z);
