@@ -5238,7 +5238,7 @@ GameObject:
   - component: {fileID: 7285039812616420731}
   - component: {fileID: 6234332675717738391}
   m_Layer: 0
-  m_Name: Filter
+  m_Name: CigaretFilter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5555,6 +5555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 370089572f01ef04d86d77b0e9cbde51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cigaret: {fileID: 0}
 --- !u!1 &8317957497251014433
 GameObject:
   m_ObjectHideFlags: 0
@@ -5569,6 +5570,7 @@ GameObject:
   - component: {fileID: 8317957497251014463}
   - component: {fileID: 8317957497251014462}
   - component: {fileID: 8317957497251014470}
+  - component: {fileID: 3099147382045291075}
   m_Layer: 0
   m_Name: Cigaret
   m_TagString: Untagged
@@ -5677,3 +5679,18 @@ MonoBehaviour:
   ps: {fileID: 2053857554530344765}
   fireMaterial: {fileID: 2100000, guid: daf23ffed5cc78f4fb0ac0bbf4b99cb0, type: 2}
   unfireMaterial: {fileID: 2100000, guid: 3d53df2c576f2f84ab36419cef766cb1, type: 2}
+--- !u!114 &3099147382045291075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8317957497251014433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5f929271b1e4e7bb6a2a3df72586f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 2053857554428556382}
+  body: {fileID: 8317957497003623244}
+  filter: {fileID: 1447165078433101305}

@@ -15,7 +15,7 @@ public class Cigaret : MonoBehaviour
 
     public bool isSmoking { private set; get; } = false;
     public float time { private set; get; } = 0.0f;
-    public float BURNINGTIME { private set; get; } = 100.0f;
+    public float BURNINGTIME { private set; get; } = 20.0f;
 
     public void StartSmoking()
     {
@@ -46,6 +46,11 @@ public class Cigaret : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space) && !isSmoking)
+        {
+            StartSmoking();
+        }
+
         if (isSmoking)
         {
             ps.Play();
