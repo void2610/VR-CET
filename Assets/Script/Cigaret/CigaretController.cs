@@ -25,8 +25,7 @@ public class CigaretController : MonoBehaviour
   void Update()
   {
     // Bodyの長さに合わせてHeadとFilterの位置を変更
-    float bodyLength = body.localScale.y;
-    float ratio = bodyLength / initialBodyLength;
+    float ratio = body.localScale.y / initialBodyLength;
     head.localPosition = initialHeadPosition * ratio;
     filter.localPosition = initialFilterPosition * ratio;
   }

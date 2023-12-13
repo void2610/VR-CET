@@ -80,7 +80,6 @@ MonoBehaviour:
   - {fileID: 2497339995422133549}
   - {fileID: -5941725581135416239}
   - {fileID: 8412456070733659025}
-  - {fileID: 1150315886695214189}
   - {fileID: 1507748248788215057}
   - {fileID: 7413458854745118488}
   - {fileID: 4054846353496584751}
@@ -122,14 +121,15 @@ MonoBehaviour:
   m_Name: MetaXRFeature Android
   m_EditorClassIdentifier: 
   m_enabled: 1
-  nameUi: Meta XR Feature
+  nameUi: MetaXR Feature
   version: 0.0.1
   featureIdInternal: com.meta.openxr.feature.metaxr
   openxrExtensionStrings: 'XR_KHR_vulkan_enable XR_KHR_D3D11_enable XR_OCULUS_common_reference_spaces
     XR_FB_display_refresh_rate XR_EXT_performance_settings XR_FB_composition_layer_image_layout
     XR_KHR_android_surface_swapchain XR_FB_android_surface_swapchain_create XR_KHR_composition_layer_color_scale_bias
     XR_FB_color_space XR_EXT_hand_tracking XR_FB_swapchain_update_state XR_FB_swapchain_update_state_opengl_es
-    XR_FB_swapchain_update_state_vulkan XR_FB_composition_layer_alpha_blend XR_KHR_composition_layer_depth
+    XR_FB_swapchain_update_state_vulkan XR_FB_foveation XR_FB_foveation_configuration
+    XR_FB_foveation_vulkan XR_FB_composition_layer_alpha_blend XR_KHR_composition_layer_depth
     XR_KHR_composition_layer_cylinder XR_KHR_composition_layer_cube XR_KHR_composition_layer_equirect2
     XR_KHR_convert_timespec_time XR_KHR_visibility_mask XR_FB_render_model XR_FB_spatial_entity
     XR_FB_spatial_entity_query XR_FB_spatial_entity_storage XR_META_performance_metrics
@@ -783,7 +783,6 @@ MonoBehaviour:
   - {fileID: -8040484322593563473}
   - {fileID: 7571361867199655619}
   - {fileID: -5743448926175052379}
-  - {fileID: 4964170413339454928}
   - {fileID: 1600407959827525994}
   - {fileID: -3884191075456304584}
   - {fileID: 4053779471106034785}
@@ -824,14 +823,15 @@ MonoBehaviour:
   m_Name: MetaXRFeature Standalone
   m_EditorClassIdentifier: 
   m_enabled: 1
-  nameUi: Meta XR Feature
+  nameUi: MetaXR Feature
   version: 0.0.1
   featureIdInternal: com.meta.openxr.feature.metaxr
   openxrExtensionStrings: 'XR_KHR_vulkan_enable XR_KHR_D3D11_enable XR_OCULUS_common_reference_spaces
     XR_FB_display_refresh_rate XR_EXT_performance_settings XR_FB_composition_layer_image_layout
     XR_KHR_android_surface_swapchain XR_FB_android_surface_swapchain_create XR_KHR_composition_layer_color_scale_bias
     XR_FB_color_space XR_EXT_hand_tracking XR_FB_swapchain_update_state XR_FB_swapchain_update_state_opengl_es
-    XR_FB_swapchain_update_state_vulkan XR_FB_composition_layer_alpha_blend XR_KHR_composition_layer_depth
+    XR_FB_swapchain_update_state_vulkan XR_FB_foveation XR_FB_foveation_configuration
+    XR_FB_foveation_vulkan XR_FB_composition_layer_alpha_blend XR_KHR_composition_layer_depth
     XR_KHR_composition_layer_cylinder XR_KHR_composition_layer_cube XR_KHR_composition_layer_equirect2
     XR_KHR_convert_timespec_time XR_KHR_visibility_mask XR_FB_render_model XR_FB_spatial_entity
     XR_FB_spatial_entity_query XR_FB_spatial_entity_storage XR_META_performance_metrics
