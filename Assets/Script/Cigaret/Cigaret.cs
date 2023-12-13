@@ -13,13 +13,14 @@ public class Cigaret : MonoBehaviour
     [SerializeField]
     private Material unfireMaterial;
 
+    public bool canSmoke { private set; get; } = true;
     public bool isSmoking { private set; get; } = false;
     public float time { private set; get; } = 0.0f;
-    public float BURNINGTIME { private set; get; } = 20.0f;
+    public float BURNINGTIME { private set; get; } = 100.0f;
 
     public void StartSmoking()
     {
-        if (!isSmoking)
+        if (!isSmoking && canSmoke)
         {
             isSmoking = true;
             cigaretFire.GetComponent<Renderer>().material = fireMaterial;
@@ -34,6 +35,7 @@ public class Cigaret : MonoBehaviour
         if (isSmoking)
         {
             isSmoking = false;
+            canSmoke = false;
             cigaretFire.GetComponent<Renderer>().material = unfireMaterial;
             ps.Stop();
         }
