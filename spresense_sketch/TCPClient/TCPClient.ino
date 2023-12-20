@@ -215,37 +215,6 @@ void setup() {
 // the loop function runs over and over again forever
 int count = 0;
 void loop() {
-  static int32_t total_size = 0;
-  uint32_t read_size =0;
-
-  /* Execute audio data */
-  err_t err = execute_aframe(&read_size);
-  if (err != AUDIOLIB_ECODE_OK && err != AUDIOLIB_ECODE_INSUFFICIENT_BUFFER_AREA)
-    {
-      theAudio->stopRecorder();
-      goto exitRecording;
-    }
-  else if (read_size>0)
-    {
-      total_size += read_size;
-    }
-
-  if (ErrEnd)
-    {
-      printf("Error End\n");
-      theAudio->stopRecorder();
-      goto exitRecording;
-    }
-  return;
-
-exitRecording:
-  theAudio->setReadyMode();
-  theAudio->end();
-  
-  puts("End Recording");
-  exit(1);
-
-
   //ネットワーク処理
 	char server_cid = 0;
 	bool served = false;
@@ -270,7 +239,29 @@ exitRecording:
 
 			// Start the infinite loop to send the data
 			while (1) {
-        delay(1000);
+        static int32_t total_size = 0;
+        uint32_t read_size =0;
+
+        /* Execute audio data */
+        err_t err = execute_aframe(&read_size);
+        if (err != AUDIOLIB_ECODE_OK && err != AUDIOLIB_ECODE_INSUFFICIENT_BUFFER_AREA)
+        {
+          // theAudio->stopRecorder();
+          // return 1;
+        }
+        else if (read_size>0)
+        {
+          total_size += read_size;
+        }
+
+        // if (ErrEnd)
+        // {
+        //   printf("Error End\n");
+        //   theAudio->stopRecorder();
+        //   return 1;
+        // }
+        
+        delay(10);
           DATA = convert(volume);
           Serial.println(volume);
           if (false == gs2200.write(server_cid, DATA.array, strlen((const char*)DATA.array))) {
@@ -278,15 +269,6 @@ exitRecording:
             Serial.println("faild");
             delay(10);
         }
-
-        //受信処理いらない
-				while (gs2200.available()) {
-					receive_size = gs2200.read(server_cid, TCP_Receive_Data, TCP_RECEIVE_PACKET_SIZE);
-					if (0 < receive_size) {
-						memset(TCP_Receive_Data, 0, TCP_RECEIVE_PACKET_SIZE);
-						WiFi_InitESCBuffer();
-					}
-				}
 
 				if (msDelta(timer) > 100) {
 					timer = millis();
