@@ -15,6 +15,7 @@
  *  Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
+#include <Audio.h>
 #include <TelitWiFi.h>
 #include <CCS811.h>
 #include "config.h"
@@ -29,6 +30,13 @@ uint8_t TCP_Receive_Data[TCP_RECEIVE_PACKET_SIZE] = {0};
 TelitWiFi gs2200;
 TWIFI_Params gsparams;
 CCS811 sensor;
+
+AudioClass *theAudio;
+static const int32_t buffer_size = 512;      // 256 samples per call at 16K, 2 bytes per, 1 ch mono
+static char          s_buffer[buffer_size];
+
+bool ErrEnd = false;
+int volume = 0;
 
 static void led_onoff(int num, bool stat)
 {
@@ -101,6 +109,68 @@ struct IntArray convert(int value) {
     return result;
 }
 
+//エラーが起きたらこれがよばれる
+void audio_attention_cb(const ErrorAttentionParam *atprm)
+{
+  puts("Attention!");
+  
+  if (atprm->error_code >= AS_ATTENTION_CODE_WARNING)
+    {
+      ErrEnd = true;
+   }
+}
+
+
+// FIFOが空の場合にフレームを実行する
+void execute_frames()
+{
+  uint32_t read_size = 0;
+  do
+    {
+      err_t err = execute_aframe(&read_size);
+      if ((err != AUDIOLIB_ECODE_OK)
+       && (err != AUDIOLIB_ECODE_INSUFFICIENT_BUFFER_AREA))
+        {
+          break;
+        }
+    }
+  while (read_size > 0);
+}
+
+
+//1フレーム分の処理
+err_t execute_aframe(uint32_t* size)
+{
+  err_t err = theAudio->readFrames(s_buffer, buffer_size, size);
+
+  if(((err == AUDIOLIB_ECODE_OK) || (err == AUDIOLIB_ECODE_INSUFFICIENT_BUFFER_AREA)) && (*size > 0)) 
+    {
+      signal_process(*size);
+    }
+
+  return err;
+}
+
+void signal_process(uint32_t size) {
+  signed int sigmax = 0;
+  uint16_t idx;
+  union Combine {
+    short target;
+    char dest[sizeof(short)];
+  };
+  Combine cc;
+
+  for (idx = 0; idx < size; idx += 2) {
+    cc.dest[0] = s_buffer[idx];
+    cc.dest[1] = s_buffer[idx + 1];
+    if (cc.target > sigmax) {
+      sigmax = cc.target;
+    }
+  }
+
+  volume = sigmax;
+}
+
 void setup() {
 	/* initialize digital pin of LEDs as an output. */
 	pinMode(LED0, OUTPUT);
@@ -129,17 +199,54 @@ void setup() {
 		while(1);
 	}
 	digitalWrite(LED0, HIGH); // turn on LED
-  
-  while(sensor.begin() != 0){
-    Serial.println("failed to init chip, please check if the chip connection is fine");
-    delay(1000);
-  }
-  sensor.setMeasCycle(sensor.eCycle_250ms);
+
+  theAudio = AudioClass::getInstance();
+  theAudio->begin(audio_attention_cb);
+  puts("initialization Audio Library");
+
+  theAudio->setRecorderMode(AS_SETRECDR_STS_INPUTDEVICE_MIC,210);
+  theAudio->initRecorder(AS_CODECTYPE_PCM, "/mnt/sd0/BIN", AS_SAMPLINGRATE_16000, AS_CHANNEL_MONO);
+  puts("Init Recorder!");
+
+  puts("Rec!");
+  theAudio->startRecorder();
 }
 
 // the loop function runs over and over again forever
 int count = 0;
 void loop() {
+  static int32_t total_size = 0;
+  uint32_t read_size =0;
+
+  /* Execute audio data */
+  err_t err = execute_aframe(&read_size);
+  if (err != AUDIOLIB_ECODE_OK && err != AUDIOLIB_ECODE_INSUFFICIENT_BUFFER_AREA)
+    {
+      theAudio->stopRecorder();
+      goto exitRecording;
+    }
+  else if (read_size>0)
+    {
+      total_size += read_size;
+    }
+
+  if (ErrEnd)
+    {
+      printf("Error End\n");
+      theAudio->stopRecorder();
+      goto exitRecording;
+    }
+  return;
+
+exitRecording:
+  theAudio->setReadyMode();
+  theAudio->end();
+  
+  puts("End Recording");
+  exit(1);
+
+
+  //ネットワーク処理
 	char server_cid = 0;
 	bool served = false;
 	uint32_t timer=0;
@@ -164,16 +271,15 @@ void loop() {
 			// Start the infinite loop to send the data
 			while (1) {
         delay(1000);
-        if(sensor.checkDataReady() == true){
-          DATA = convert(sensor.getCO2PPM());
-          Serial.println(sensor.getCO2PPM());
+          DATA = convert(volume);
+          Serial.println(volume);
           if (false == gs2200.write(server_cid, DATA.array, strlen((const char*)DATA.array))) {
             // Data is not sent, we need to re-send the data
             Serial.println("faild");
             delay(10);
-          }
         }
 
+        //受信処理いらない
 				while (gs2200.available()) {
 					receive_size = gs2200.read(server_cid, TCP_Receive_Data, TCP_RECEIVE_PACKET_SIZE);
 					if (0 < receive_size) {
