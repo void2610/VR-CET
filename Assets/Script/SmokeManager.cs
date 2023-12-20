@@ -50,19 +50,19 @@ public class SmokeManager : MonoBehaviour
         var em = ps.emission;
         if (server.IsConnected())
         {
-            float normalizedCo2 = Map((float)(server.GetCo2()), 400, 5000, 0, 400);
+            float normalizedCo2 = Map((int)(server.GetCo2()), 0, 3200, 0, 400);
             Debug.Log(normalizedCo2);
 
-            if (normalizedCo2 < 30)
+            if (normalizedCo2 > 100)
             {
-                em.rateOverTime = 100;
-                exhaustRate = 100;
+                exhaustRate = normalizedCo2;
             }
             else
             {
-                em.rateOverTime = 0;
                 exhaustRate = 0;
             }
+
+            em.rateOverTime = exhaustRate;
         }
         else
         {

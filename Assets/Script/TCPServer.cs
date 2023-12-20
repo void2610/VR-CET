@@ -75,12 +75,12 @@ public class TCPServer : MonoBehaviour
                     if (int.TryParse(message, out int result))
                     {
                         co2 = result;
+                        //Debug.Log(co2);
                     }
                     else
                     {
                         co2 = -1;
                     }
-                    // networkStream.Write(data, 0, data.Length);
                 }
             }
             catch (Exception ex)
